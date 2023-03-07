@@ -4,6 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.springsecurity.dto.AddressToUserForm;
+import com.example.springsecurity.dto.RoleToUserForm;
 import com.example.springsecurity.models.Role;
 import com.example.springsecurity.models.User;
 import com.example.springsecurity.service.UserService;
@@ -56,6 +58,12 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/address/addtouser")
+    public ResponseEntity<?> saveAddressToUser(@RequestBody AddressToUserForm form){
+        userService.addAddressToUser(form);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/refreshtoken")
     public void refreshtoken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
@@ -94,8 +102,4 @@ public class UserController {
     }
 
 }
-@Data
-class RoleToUserForm{
-    private String username;
-    private String roleName;
-}
+

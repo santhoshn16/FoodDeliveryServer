@@ -1,7 +1,9 @@
 package com.example.springsecurity.service;
 
+import com.example.springsecurity.dto.AddressToUserForm;
 import com.example.springsecurity.models.Role;
 import com.example.springsecurity.models.User;
+import com.example.springsecurity.models.UserAddress;
 import com.example.springsecurity.repository.RoleRepository;
 import com.example.springsecurity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +60,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Role role = roleRepository.findByName(roleName);
         user.getRoles().add(role);
         log.info("Role {} added to User {}",roleName, username);
+    }
+
+    public void addAddressToUser(AddressToUserForm form){
+        User user = userRepository.findByUsername(form.getUsername());
+        UserAddress userAddress = new UserAddress(form.getStreet(), form.getCity(), form.getZip());
+        //userAddress.setUser(user);
+        user.getAddress().add(userAddress);
+        log.info("Address updated to user {}", form.getUsername());
     }
 
     @Override
