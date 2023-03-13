@@ -50,7 +50,7 @@ public class CustomAuthFilter extends UsernamePasswordAuthenticationFilter {
         Algorithm algorithm = Algorithm.HMAC256("santhosh".getBytes());
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 100 * 60 * 60))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles",user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toList()))
@@ -62,9 +62,11 @@ public class CustomAuthFilter extends UsernamePasswordAuthenticationFilter {
                 .sign(algorithm);
         /*response.setHeader("access_token",access_token);
         response.setHeader("refresh_token",refresh_token);*/
+        log.info("{}",new Date(System.currentTimeMillis() + 1000 * 60 * 60));
         Map<String, String > tokens = new HashMap<>();
         tokens.put("accesstoken",access_token);
         tokens.put("refreshtoken",refresh_token);
+        tokens.put("user",user.getUsername());
         response.setContentType(APPLICATION_JSON_VALUE);
         response.addHeader("Access-Control-Allow-Origin","*");
         response.addHeader("Access-Control-Allow-Methods","POST,PATCH,OPTIONS,GET");

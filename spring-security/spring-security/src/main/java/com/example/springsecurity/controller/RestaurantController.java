@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+@CrossOrigin
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
@@ -21,7 +24,13 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @GetMapping("/restaurants")
-    public ResponseEntity<List<Restaurant>> getRestaurants(){
+    public ResponseEntity</*Map<Long,String>*/List<Restaurant>> getRestaurants(){
+//        List<Restaurant> restaurants = restaurantService.getRestaurants();
+//        Map<Long, String> info = new HashMap<>();
+//        for(Restaurant i: restaurants){
+//            info.put(i.getId(), i.getUsername());
+//        }
+//        return ResponseEntity.ok().body(info);
         return ResponseEntity.ok().body(restaurantService.getRestaurants());
     }
 
