@@ -10,7 +10,6 @@ import com.example.springsecurity.models.Role;
 import com.example.springsecurity.models.User;
 import com.example.springsecurity.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +45,11 @@ public class UserController {
     @GetMapping("/user/{name}")
     public ResponseEntity<User> getUser(@PathVariable String name){
         return ResponseEntity.ok().body(userService.getUser(name));
+    }
+
+    @PostMapping("/user/delete/{name}")
+    public ResponseEntity<String> deleteUser(@PathVariable String name){
+        return ResponseEntity.ok().body(userService.deleteUser(name));
     }
     @PostMapping("/user/save")
     public ResponseEntity<User> saveUser(@RequestBody User user){
@@ -100,6 +104,13 @@ public class UserController {
                 String access_token = JWT.create()
                         .withSubject(user.getUsername())
                         .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                        .withIssuer(request.getRequestURL().toString())
+                        .withClaim("roles", user.getRoles().stream().map(Role::getName)
+                                .collect(Collectors.toList()))
+                        .sign(algorithm);
+                refresh_token = JWT.create()
+                        .withSubject(user.getUsername())
+                        .withExpiresAt(new Date(System.currentTimeMillis() + 3000 * 60 * 60))
                         .withIssuer(request.getRequestURL().toString())
                         .withClaim("roles", user.getRoles().stream().map(Role::getName)
                                 .collect(Collectors.toList()))

@@ -18,4 +18,6 @@ public interface UserService {
     List<User> getUsers();
 
     User updateProfile(User user);
+
+    String deleteUser(String name);
 }

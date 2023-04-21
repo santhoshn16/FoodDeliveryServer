@@ -113,5 +113,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.save(updateUser.get());
     }
 
+    @Override
+    public String deleteUser(String name) {
+        userRepository.delete(userRepository.findByUsername(name));
+        return "Successfully deleted user";
+    }
+
 
 }

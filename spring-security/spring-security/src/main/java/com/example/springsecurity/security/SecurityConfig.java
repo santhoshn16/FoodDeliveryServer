@@ -35,10 +35,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/login","/api/refreshtoken").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/user/save").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/user/delete/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/restaurants/**","/api/restaurants").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/users").hasAnyAuthority("ROLE_USER");
-        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/user/save").hasAnyAuthority("ROLE_ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/restaurant/save").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/{name}/menuItems").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/saveItemToRestaurant").hasAnyAuthority("ROLE_ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/address/addtorestaurant").hasAnyAuthority("ROLE_ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/upload").hasAnyAuthority("ROLE_ADMIN");
         http.authorizeRequests().anyRequest().authenticated();
