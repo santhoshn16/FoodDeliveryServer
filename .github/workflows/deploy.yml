@@ -22,7 +22,9 @@ jobs:
         java-version: '17'
 
     - name: Build with Maven
-      run: mvn package
+      run: |
+          cd FoodDeliveryServer/spring-security/spring-security/        
+          mvn package
 
     - name: Deploy to EC2
       run: |
