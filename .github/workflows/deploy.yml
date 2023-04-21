@@ -23,7 +23,7 @@ jobs:
 
     - name: Build with Maven
       run: |
-          cd /github/workspace/FoodDeliveryServer/spring-security/spring-security/        
+          cd /home/runner/work/FoodDeliveryServer/FoodDeliveryServer/spring-security/spring-security/        
           mvn package
 
     - name: Deploy to EC2
