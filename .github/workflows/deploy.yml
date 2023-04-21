@@ -28,7 +28,7 @@ jobs:
 
     - name: Deploy to EC2
       env:
-        SSH_PRIVATE_KEY: ${{ secrets.PRIV}}
+        SSH_PRIVATE_KEY: ${{ secrets.SERVPRIV}}
       run: |
         ssh ec2-user@54.175.99.206 "sudo /home/ec2-user/script.sh"
 
